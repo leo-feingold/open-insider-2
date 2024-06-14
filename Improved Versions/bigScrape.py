@@ -39,7 +39,7 @@ def scrape_data(start_date, end_date):
             print(f"Scraped all data or encountered an error. \nCorresponding Error Message: \n{e}")
             break
     
-    print(f"Scraped first {page} pages of data between {start_date} and {end_date}.")
+    print(f"Scraped first {page - 1} pages of data between {start_date} and {end_date}.")
     driver.quit()
     return dfs
 
@@ -47,11 +47,11 @@ def concat_and_finish(dfs):
     final_df = pd.concat(dfs, ignore_index=True)
     print(f"Columns: {final_df.columns}")
     print(f"Result: {final_df}")
-    final_df.to_csv("2023JuneThroughDecScrape.csv", index=False)
+    final_df.to_csv("JanToApril2018Scrape.csv", index=False)
 
 def main():
-    min_date = datetime(2023, 6, 1).date()
-    max_date = datetime(2023, 12, 31).date()
+    min_date = datetime(2018, 1, 1).date()
+    max_date = datetime(2018, 4, 1).date()
 
     dfs = scrape_data(min_date, max_date)
     if dfs:
