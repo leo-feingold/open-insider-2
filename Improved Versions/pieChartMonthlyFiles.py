@@ -15,12 +15,12 @@ def pieChart(df):
     plt.figure(figsize=(10, 7))
     plt.pie(monthly_counts, labels=monthly_counts.index, autopct='%1.1f%%', startangle=140)
     plt.axis('equal')
-    plt.title('2018: Number of Trades Filed in Each Month')
+    plt.title('2022: Number of Trades Filed in Each Month')
     plt.show()
 
 
 def main():
-    csv = "/Users/leofeingold/Desktop/open insider 2/2018Scrape.csv"
+    csv = "/Users/leofeingold/Desktop/open insider 2/CSV Folders/2022Scrape.csv"
     data = loadData(csv)
     pieChart(data)
 
