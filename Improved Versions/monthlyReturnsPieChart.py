@@ -13,20 +13,29 @@ def loadData(csv):
     return df
 
 def pieChart(df):
+    month_order = ["January", "February", "March", "April", "May", "June", 
+                   "July", "August", "September", "October", "November", "December"]
+
+    df['Purchasing Month'] = pd.Categorical(df['Purchasing Month'], categories=month_order, ordered=True)
+    
     returns_by_month = df.groupby("Purchasing Month")["Return on Investment"].sum()
+    returns_by_month = returns_by_month.sort_index()
+    returns_by_month.to_csv('2022_returns_by_month.csv')
+
     positive_returns_by_month = returns_by_month[returns_by_month >= 0]
     negative_returns_by_month = returns_by_month[returns_by_month < 0].index.tolist()
 
     plt.figure(figsize=(10, 7))
     plt.pie(positive_returns_by_month, labels=positive_returns_by_month.index, autopct='%1.1f%%', startangle=140)
     plt.axis('equal')
-    plt.title('2022: Percentage Of Positive Returns By Our Purchasing Month')
+    plt.title('2022: Percentage Of Positive Returns By Our Purchasing Month (Not ROI, But Percentage of Sum Of Positive ROI\'s)')
 
-    textstr = '\n'.join([f"{month}: {returns_by_month[month]:.2f}" for month in negative_returns_by_month])
+    textstr = 'Actual ROI\'s:\n' + '\n'.join([f"{month}: {returns_by_month[month]:.2f}" for month in negative_returns_by_month])
     plt.gcf().text(0.02, 0.02, textstr, fontsize=12, bbox=dict(facecolor='red', alpha=0.5))
 
-    textstr2 = '\n'.join([f"{month}: {returns_by_month[month]:.2f}" for month in positive_returns_by_month.index])
+    textstr2 = 'Actual ROI\'s:\n' + '\n'.join([f"{month}: {returns_by_month[month]:.2f}" for month in positive_returns_by_month.index])
     plt.gcf().text(0.98, 0.02, textstr2, fontsize=12, bbox=dict(facecolor='green', alpha=0.5), horizontalalignment='right')
+
 
     plt.show()
 
