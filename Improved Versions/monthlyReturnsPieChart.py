@@ -20,7 +20,7 @@ def pieChart(df):
     
     returns_by_month = df.groupby("Purchasing Month")["Return on Investment"].sum()
     returns_by_month = returns_by_month.sort_index()
-    returns_by_month.to_csv('2022_returns_by_month.csv')
+    returns_by_month.to_csv('2018_returns_by_month.csv')
 
     positive_returns_by_month = returns_by_month[returns_by_month >= 0]
     negative_returns_by_month = returns_by_month[returns_by_month < 0].index.tolist()
@@ -40,7 +40,7 @@ def pieChart(df):
     plt.show()
 
 def main():
-    csv = "/Users/leofeingold/Desktop/open insider 2/CSV Folders/2022Results.csv"
+    csv = "/Users/leofeingold/Desktop/open insider 2/CSV Folders/2018Results.csv"
     df = loadData(csv)
     pieChart(df)
 
