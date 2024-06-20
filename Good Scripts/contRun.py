@@ -60,11 +60,11 @@ def concat_and_finish(dfs):
     final_df = pd.concat(dfs, ignore_index=True).drop_duplicates()
     print(f"Columns: {final_df.columns}")
     print(f"Result: {final_df}")
-    final_df.to_csv("2020Scrape.csv", index=False)
+    final_df.to_csv("2016Scrape.csv", index=False)
 
 def main():
-    min_date = datetime(2020, 1, 1).date()
-    max_date = datetime(2020, 12, 31).date()
+    min_date = datetime(2016, 1, 1).date()
+    max_date = datetime(2016, 12, 31).date()
 
     dfs = scrape_data(min_date, max_date)
     if dfs:

@@ -104,12 +104,14 @@ def visualizeData(results_df):
     plt.show()
 
 def main():
-    csv = "/Users/leofeingold/Desktop/open insider 2/2021Scrape.csv"
+    '''
+    csv = "/Users/leofeingold/Desktop/open insider 2/2016Scrape.csv"
     clusters = loadClusterBuys(csv)
     results = performanceOverNext3Days(clusters)
     print(results)
-    results.to_csv("2021Results.csv", index=False)
-    #results = pd.read_csv("/Users/leofeingold/Desktop/open insider 2/CSV Folders/2023Results.csv")
+    results.to_csv("2016Results.csv", index=False)
+    '''
+    results = pd.read_csv("/Users/leofeingold/Desktop/open insider 2/CSV Folders pt. 2/2020Results.csv")
     visualizeData(results)
 
 

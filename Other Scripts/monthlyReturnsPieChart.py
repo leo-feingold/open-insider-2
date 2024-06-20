@@ -20,7 +20,7 @@ def pieChart(df):
     
     returns_by_month = df.groupby("Purchasing Month")["Return on Investment"].sum()
     returns_by_month = returns_by_month.sort_index()
-    returns_by_month.to_csv('2021_returns_by_month.csv')
+    returns_by_month.to_csv('2020_returns_by_month.csv')
 
     positive_returns_by_month = returns_by_month[returns_by_month >= 0]
     negative_returns_by_month = returns_by_month[returns_by_month < 0].index.tolist()
@@ -28,7 +28,7 @@ def pieChart(df):
     plt.figure(figsize=(10, 7))
     plt.pie(positive_returns_by_month, labels=positive_returns_by_month.index, autopct='%1.1f%%', startangle=140)
     plt.axis('equal')
-    plt.title('2021: Percentage Of Positive Returns By Our Purchasing Month (Not ROI, But Percentage of Sum Of Positive ROI\'s)')
+    plt.title('2020: Percentage Of Positive Returns By Our Purchasing Month (Not ROI, But Percentage of Sum Of Positive ROI\'s)')
 
     textstr = 'Actual ROI\'s:\n' + '\n'.join([f"{month}: {returns_by_month[month]:.2f}" for month in negative_returns_by_month])
     plt.gcf().text(0.02, 0.02, textstr, fontsize=12, bbox=dict(facecolor='red', alpha=0.5))
@@ -40,7 +40,7 @@ def pieChart(df):
     plt.show()
 
 def main():
-    csv = "/Users/leofeingold/Desktop/open insider 2/CSV Folders pt. 2/2021Results.csv"
+    csv = "/Users/leofeingold/Desktop/open insider 2/2020Results.csv"
     df = loadData(csv)
     pieChart(df)
 
