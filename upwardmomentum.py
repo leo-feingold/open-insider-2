@@ -79,11 +79,11 @@ def get_market_cap(stock, data, date):
 def determinePerformance(df):
     num_no_data = 0
     num_error_loading = 0
-    num_down_momentum = 0
+    num_non_up_momentum = 0
     market_open = time(9, 30)
     market_close = time(16, 0)
     result_df = pd.DataFrame(columns=["Ticker", "Market Cap", "Filing Date", "Actual Purchase Date", "Timing", "Purchase Price", "Sell Date", "Sell Price", "Return on Investment"])
-    down_momentum_df = pd.DataFrame(columns=["Ticker", "Filing Date"])
+    non_up_momentum_df = pd.DataFrame(columns=["Ticker", "Filing Date"])
 
     for stock, filing_date in zip(df["Ticker"], df["Filing Date"]):
         if pd.isna(stock) or not isinstance(stock, str):
@@ -108,10 +108,10 @@ def determinePerformance(df):
             data = identify_downward_momentum(data)
             momentum_period = data.loc[filing_date - timedelta(days=10):filing_date - timedelta(days=1)]
             
-            if momentum_period['Downward_Momentum'].any():
-                print(f"Downward momentum detected within 10 days before {filing_date} for {stock}, skipping purchase")
-                num_down_momentum += 1
-                down_momentum_df = pd.concat([down_momentum_df, pd.DataFrame({
+            if not momentum_period['Upward_Momentum'].any():
+                print(f"No upward momentum detected within 10 days before {filing_date} for {stock}, skipping purchase")
+                num_non_up_momentum += 1
+                non_up_momentum_df = pd.concat([non_up_momentum_df, pd.DataFrame({
                     "Ticker": [stock],
                     "Filing Date": [filing_date]
                 })], ignore_index=True)
@@ -163,8 +163,8 @@ def determinePerformance(df):
 
     print(f"Num Error Loading: {num_error_loading}")
     print(f"Num No Data: {num_no_data}")
-    print(f"Num Downwards Momentum: {num_down_momentum}")
-    return result_df, down_momentum_df
+    print(f"Num Downwards Momentum: {num_non_up_momentum}")
+    return result_df, non_up_momentum_df
 
 def visualizeData(results_df):
     if results_df.empty:
@@ -188,12 +188,12 @@ def visualizeData(results_df):
     plt.show()
 
 def main():
-    csv = "/Users/leofeingold/Desktop/open insider 2/Scraped Data/2020Scrape.csv"
+    csv = "/Users/leofeingold/Desktop/open insider 2/2021-04Scrape.csv"
     insiders = loadData(csv)
     results, bad_momentum_df = determinePerformance(insiders)
     print(results)
-    results.to_csv("2020ResultsMomentumGood.csv", index=False)
-    bad_momentum_df.to_csv("2020BadMomentumStocks.csv", index=False)
+    results.to_csv("Apr2021ResultsUpwardMomentum.csv", index=False)
+    bad_momentum_df.to_csv("Apr2021NonUpMom.csv", index=False)
     visualizeData(results)
 
 if __name__ == "__main__":

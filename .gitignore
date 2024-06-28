@@ -5,3 +5,5 @@
 /script holder
 /Results, Market Cap Filtered For Momentum
 /Scraped Data
+*.csv
+/More csvs
